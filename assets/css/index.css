@@ -1,0 +1,184 @@
+:root {
+  --corA: #131811;
+  --corB: #3e4b42;
+  --corC: #233d28;
+  --corD: #43f879;
+  --corE: #85dd9b;
+  --inve: rgba(0 0 0/0%);
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+  overflow-y: hidden;
+  
+}
+
+/*web-kit*/
+input[type=file] {
+  display: none;
+}
+
+::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(0 0 0 /50%);
+}
+
+.ocultar {
+  display: none;
+}
+
+button:focus, button:focus-visible, input:focus-visible, input:focus, select:focus-visible, select:focus, textarea:focus-visible, textarea:focus {
+  outline: none;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: overlay;
+  overflow-x: hidden;
+  background-color: var(--corB);
+  animation-duration: 0.1s;
+  animation-name: textflicker;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.title{
+  color: var(--corE);
+  font-size: 5vh;
+  font-family: sans-serif;
+  font-weight: bold;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}
+.ResText{
+  color: var(--corD);
+  background-color: var(--corA);
+  width: 88vw;
+  height: 78vh;
+  border-radius: 0.5vw;
+  word-wrap: break-word;
+  overflow-y: scroll;
+  padding: 2vh;
+  font-size: 2vh;
+  font-family: monospace;
+}
+.YourText{
+  width: 89vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 7vh;
+}
+  .input{
+      color: var(--corE);
+      background-color: var(--corC);
+      border: none;
+      padding: 1vh;
+      border-radius: 0.5vw;
+      width: 70vw;
+  }
+      .input:hover{
+          cursor: pointer;
+      }
+      .input::placeholder{
+          color: var(--corA);
+          animation: none;
+      }
+      .input:focus{
+          color: var(--corD);
+          background-color: var(--corA);
+      }
+  .btnEnviar{
+      color: var(--corE);
+      background-color: var(--corA);
+      border: none;
+      padding: 1vh;
+      border-radius: 0.5vw;
+      margin-left: 1vw;
+  }
+      .btnEnviar:hover{
+          color: var(--corD);
+          cursor: pointer;
+          background-color: var(--corC);
+      }
+      .btnEnviar:active{
+          color: var(--corB);
+      }
+
+div:before, div:after{
+  content: attr(title);
+  position: absolute;
+  left: 0;
+}
+
+div{
+  animation: glitch 2s linear infinite;
+}
+
+div:after{
+  animation: glitchBotom 1.5s linear infinite;
+  clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+  -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+}
+
+div:before{
+  animation: glitchTop 1s linear infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+}
+
+@keyframes textflicker {
+  from {
+    text-shadow: 1px 0 0 var(--corA), -2px 0 0 var(--corD);
+  }
+  to {
+    text-shadow: 2px 0.5px 2px var(--corA), -1px -0.5px 2px var(--corD);
+  }
+}
+
+@keyframes glitch{
+  2%,64%{
+    transform: translate(2px,0) skew(0deg);
+  }
+  4%,60%{
+    transform: translate(-2px,0) skew(0deg);
+  }
+  62%{
+    transform: translate(0,0) skew(5deg); 
+  }
+}
+
+@keyframes glitchBotom{
+  2%,64%{
+    transform: translate(-2px,0);
+  }
+  4%,60%{
+    transform: translate(-2px,0);
+  }
+  62%{
+    transform: translate(-22px,5px) skew(21deg); 
+  }
+}
+
+@keyframes glitchTop{
+  2%,64%{
+    transform: translate(2px,-2px);
+  }
+  4%,60%{
+    transform: translate(-2px,2px);
+  }
+  62%{
+    transform: translate(13px,-1px) skew(-13deg); 
+  }
+}

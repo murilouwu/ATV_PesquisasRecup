@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="assets/css/index.css">
+        <script src="https://kit.fontawesome.com/39cab4bf95.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.js" integrity="sha256-tA8y0XqiwnpwmOIl3SGAcFl2RvxHjA8qp0+1uCGmRmg=" crossorigin="anonymous"></script>
+        <script src="assets/java/code.js"></script>
+        <title>RpgText</title>
+    </head>
+    <body>
+        <h2 class="title" id="res">Text</h2>
+        <div class="ResText" id="ResIa"></div>
+        <div class="YourText">
+            <input type="text" id="YourText" class="input" placeholder="Escreva por aqui">
+            <button class="btnEnviar"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </body>
+    <script>
+        const titulo = document.querySelector('#res');
+        const time = 100;
+
+        window.onload = ()=>{
+            clearText(titulo);
+            typeWriter(titulo, "Pesquisas", time);
+            let YourText = document.querySelector('#YourText');
+            YourText.focus();
+        }
+        
+        document.querySelector('body').addEventListener('keydown', (event)=>{
+            var KeyCode = event.keyCode || event.which;
+            if(KeyCode==13){
+                let btn = document.querySelector('.btnEnviar');
+                btn.click();
+            }
+        });
+
+        document.querySelector('body').addEventListener('click', ()=>{
+            let YourText = document.querySelector('#YourText');
+            let vl = YourText.value;
+            let Text = document.querySelector('#ResIa');
+            
+            clearInput(YourText);
+            clearText(Text);
+            typeWriter(Text, vl, time);
+        });
+    </script>
+</html>
