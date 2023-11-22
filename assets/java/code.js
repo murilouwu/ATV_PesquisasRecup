@@ -1,5 +1,6 @@
 function typeWriter(elemento, text, time){
     const textoArray = text.split('');
+
     textoArray.forEach((letra, i) => {
         setTimeout(() => elemento.innerHTML += letra, time * i);
         if(textoArray.length-1 == i){

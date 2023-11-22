@@ -3,31 +3,109 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="assets/css/index.css">
         <script src="https://kit.fontawesome.com/39cab4bf95.js" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.js" integrity="sha256-tA8y0XqiwnpwmOIl3SGAcFl2RvxHjA8qp0+1uCGmRmg=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="assets/css/tv.css">
+        <link rel="stylesheet" href="assets/css/index.css">
         <script src="assets/java/code.js"></script>
-        <title>RpgText</title>
+        <title>Pesquisas</title>
     </head>
     <body>
-        <h2 class="title" id="res">Text</h2>
-        <div class="ResText" id="ResIa"></div>
-        <div class="YourText">
-            <input type="text" id="YourText" class="input" placeholder="Escreva por aqui">
-            <button class="btnEnviar"><i class="fa-solid fa-paper-plane"></i></button>
+        <img src="assets/imagen/Mouse.png" class="mouse">
+        <div class="blurEdit"></div>
+        <div class="old-tv">
+            <main>
+                <div class="error-noise">
+                    <div class="error-effect">
+                        <div class="old-tv-content">
+                        </div>
+                        <div class="Conteudo">
+                            <div class="cmdTerminal">
+                                <h2 class="title" id="res">Pesquisas</h2>
+                                <button class="btncdmexit"><i class="fa-solid fa-xmark"></i></button>
+                                <div class="ResText" id="ResIa"></div>
+                                <div class="opacity0">
+                                    <input type="text" id="YourText">
+                                    <button class="btnEnviar"></button>
+                                </div>
+                                <div class="doll">
+                                    <img src="assets/DollGifs/DollStatic.gif" id="Doll">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <div class="speaker"></div>
+            <nav class="power">
+                <button></button>
+            </nav>
+            <nav></nav>
+            <footer></footer>
         </div>
+        <div class="mesa"></div>
+        <div class="blurGreenBig"></div>
     </body>
     <script>
+        //mouse
+        document.addEventListener('mousemove', function(m){
+            var mo = document.querySelector('.mouse');
+            var x = m.pageX-20;
+            var y = m.pageY-20;
+
+            mo.style.left = x +'px';
+            mo.style.top = y +'px';
+        });
+
+        //scroll
+        function report(what, ammout){
+            let Text = document.querySelector('#ResIa');
+            if(ammout>0){
+                Text.scroll(0, (Text.scrollTop-100));
+            }else{
+                Text.scroll(0, (Text.scrollTop+100));
+            }
+        }
+
+        function callback(event) {
+            var normalized;
+            if (event.wheelDelta) {
+                normalized = (event.wheelDelta % 120 - 0) == -0 ? event.wheelDelta / 120 : event.wheelDelta / 12;
+            } else {
+                var rawAmmount = event.deltaY ? event.deltaY : event.detail;
+                normalized = -(rawAmmount % 3 ? rawAmmount * 10 : rawAmmount / 3);
+            }
+            report('roda', normalized);
+        }
+
+        var event = 'onwheel' in document ? 'wheel' : 'onmousewheel' in document ? 'mousewheel' : 'DOMMouseScroll';
+        window.addEventListener(event, callback);
+
+        //texto
         const titulo = document.querySelector('#res');
         const time = 100;
+        let textSave = '';
+        let cond = [0];
 
         window.onload = ()=>{
             clearText(titulo);
-            typeWriter(titulo, "Pesquisas", time);
+            typeWriter(titulo, 'Pesquisas', time);
             let YourText = document.querySelector('#YourText');
             YourText.focus();
+            
+            let Text = document.querySelector('#ResIa');
+            typeWriter(Text, "Seu Texto -> ", time);
         }
-        
+
+        document.querySelector('#YourText').oninput = ()=>{
+            let YourText = document.querySelector('#YourText');
+            let vl = YourText.value;
+            let Text = document.querySelector('#ResIa');
+            let space = cond[0] == 0? '':'<br><br>_____________<br><br>';
+
+            Text.innerHTML = textSave+space+"Seu Texto -> " + vl;
+        };
+
         document.querySelector('body').addEventListener('keydown', (event)=>{
             var KeyCode = event.keyCode || event.which;
             if(KeyCode==13){
@@ -36,14 +114,32 @@
             }
         });
 
-        document.querySelector('body').addEventListener('click', ()=>{
+        document.querySelector('.btnEnviar').addEventListener('click', ()=>{
+            let anim = document.querySelector('#Doll');
+            anim.src = 'assets/DollGifs/DollTallk.gif';
+            $('#YourText').attr('disabled', 'disabled');
+
+            cond[0] = cond[0] == 0? 1:cond[0];
             let YourText = document.querySelector('#YourText');
             let vl = YourText.value;
             let Text = document.querySelector('#ResIa');
+
+            textSave = Text.innerHTML+'<br><br>_____________<br><br>Resposta --> '+vl;
             
             clearInput(YourText);
-            clearText(Text);
+            Text.innerHTML += '<br><br>_____________<br><br>Resposta --> ';
             typeWriter(Text, vl, time);
+
+            let textArray = vl.split('');
+            setTimeout(()=>{
+                anim.src = 'assets/DollGifs/DollStatic.gif';
+                $('#YourText').removeAttr('disabled');
+                YourText.focus();
+            },(time*textArray.length ));
+        });
+
+        document.querySelector('.blurGreenBig').addEventListener('click', ()=>{
+            YourText.focus();
         });
     </script>
 </html>
