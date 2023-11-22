@@ -138,7 +138,13 @@
             },(time*textArray.length ));
         });
 
+        document.querySelector('.mouse').addEventListener('click', ()=>{
+            let YourText = document.querySelector('#YourText');
+            YourText.focus();
+        });
+
         document.querySelector('.blurGreenBig').addEventListener('click', ()=>{
+            let YourText = document.querySelector('#YourText');
             YourText.focus();
         });
     </script>
