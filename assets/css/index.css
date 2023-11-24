@@ -14,16 +14,6 @@ body{
     opacity: 49%;
     filter: blur(4px) contrast(2.5) saturate(80%) sepia(24%) brightness(21%);
   }
-  .blurGreenBig{
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    background-color: rgb(54 255 0);
-    opacity: 7%;
-    filter: contrast(200%) saturate(150%) brightness(63%);
-    z-index: 2000;
-    mix-blend-mode: plus-lighter;
-  }
   .mesa{
     width: 90vw;
     background-color: #755050;
@@ -118,7 +108,29 @@ body{
             width: 100%;
             height: 100%;
           }
-
+    .paperInfo{
+      position: absolute;
+      z-index: 101;
+      width: 16vw;
+      margin: 73vh 70vw 0vh 0vw;
+      box-shadow: 0vw 1vh 0.5vw rgb(0 0 0/72%);
+    }
+    .screenLoad{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    .handpower{
+      display: none;
+      position: absolute;
+      z-index: 102;
+      rotate: 43deg;
+      transform: scaleY(-1);
+      margin: 140vh 0vw 0vh 74vw;
+      filter: brightness(58%) contrast(83%) saturate(90%);
+      height: 16vh;
+      animation: clickhand 3s ease-in-out;
+    }
 @keyframes nave{
   0%{
     rotate: 1deg;
@@ -131,5 +143,31 @@ body{
   100%{
     rotate: 2deg;
     margin-top: 6.5vh;
+  }
+}
+
+@keyframes clickhand{
+  0%{
+    height: 16vh;
+    margin-top: 140vh;
+  }
+  25%{
+    display: flex;
+    height: 16vh;
+    margin-top: 100vh;
+  }
+  50%{
+    height: 15.5vh;
+    margin-top: 85vh;
+  }
+  75%{
+    height: 16vh;
+    box-shadow: none;
+  }
+  90%{
+    margin-top: 90vh;
+  }
+  100%{
+    margin-top: 140vh;
   }
 }

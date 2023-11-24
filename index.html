@@ -11,7 +11,6 @@
         <title>Pesquisas</title>
     </head>
     <body>
-        <img src="assets/imagen/Mouse.png" class="mouse">
         <div class="blurEdit"></div>
         <div class="old-tv">
             <main>
@@ -34,118 +33,124 @@
                             </div>
                         </div>
                     </div>
+                    <img src="assets/imagen/black.png" class="screenLoad">
                 </div>
             </main>
             <div class="speaker"></div>
             <nav class="power">
-                <button></button>
+                <button id="btnClickAnim"></button>
             </nav>
             <nav></nav>
             <footer></footer>
         </div>
+        <img src="assets/imagen/paper.png" class="paperInfo">
         <div class="mesa"></div>
-        <div class="blurGreenBig"></div>
+        <img src="assets/imagen/hand.png" class="handpower">
     </body>
     <script>
-        //mouse
-        document.addEventListener('mousemove', function(m){
-            var mo = document.querySelector('.mouse');
-            var x = m.pageX-20;
-            var y = m.pageY-20;
-
-            mo.style.left = x +'px';
-            mo.style.top = y +'px';
-        });
-
         //scroll
-        function report(what, ammout){
-            let Text = document.querySelector('#ResIa');
-            if(ammout>0){
-                Text.scroll(0, (Text.scrollTop-100));
-            }else{
-                Text.scroll(0, (Text.scrollTop+100));
+            function report(what, ammout){
+                let Text = document.querySelector('#ResIa');
+                if(ammout>0){
+                    Text.scroll(0, (Text.scrollTop-100));
+                }else{
+                    Text.scroll(0, (Text.scrollTop+100));
+                }
             }
-        }
 
-        function callback(event) {
-            var normalized;
-            if (event.wheelDelta) {
-                normalized = (event.wheelDelta % 120 - 0) == -0 ? event.wheelDelta / 120 : event.wheelDelta / 12;
-            } else {
-                var rawAmmount = event.deltaY ? event.deltaY : event.detail;
-                normalized = -(rawAmmount % 3 ? rawAmmount * 10 : rawAmmount / 3);
+            function callback(event) {
+                var normalized;
+                if (event.wheelDelta) {
+                    normalized = (event.wheelDelta % 120 - 0) == -0 ? event.wheelDelta / 120 : event.wheelDelta / 12;
+                } else {
+                    var rawAmmount = event.deltaY ? event.deltaY : event.detail;
+                    normalized = -(rawAmmount % 3 ? rawAmmount * 10 : rawAmmount / 3);
+                }
+                report('roda', normalized);
             }
-            report('roda', normalized);
-        }
 
-        var event = 'onwheel' in document ? 'wheel' : 'onmousewheel' in document ? 'mousewheel' : 'DOMMouseScroll';
-        window.addEventListener(event, callback);
+            var event = 'onwheel' in document ? 'wheel' : 'onmousewheel' in document ? 'mousewheel' : 'DOMMouseScroll';
+            window.addEventListener(event, callback);
 
         //texto
-        const titulo = document.querySelector('#res');
-        const time = 100;
-        let textSave = '';
-        let cond = [0];
-
-        window.onload = ()=>{
-            clearText(titulo);
-            typeWriter(titulo, 'Pesquisas', time);
-            let YourText = document.querySelector('#YourText');
-            YourText.focus();
+            const titulo = document.querySelector('#res');
+            const time = 100;
+            let textSave = '';
+            let cond = [0];
+            let power = 0;
             
-            let Text = document.querySelector('#ResIa');
-            typeWriter(Text, "Seu Texto -> ", time);
-        }
+            //key tec
+            jQuery(document).bind("keyup keydown", function(e){
+                if(e.ctrlKey && e.keyCode == 77){
+                    let hand = document.querySelector('.handpower');
+                    let btn = document.querySelector('#btnClickAnim');
+                    let screnn = document.querySelector('.screenLoad');
 
-        document.querySelector('#YourText').oninput = ()=>{
-            let YourText = document.querySelector('#YourText');
-            let vl = YourText.value;
-            let Text = document.querySelector('#ResIa');
-            let space = cond[0] == 0? '':'<br><br>_____________<br><br>';
+                    hand.style.display = 'flex';
 
-            Text.innerHTML = textSave+space+"Seu Texto -> " + vl;
-        };
+                    setTimeout(()=>{ btn.style.animation = 'click 1.5s ease-in-out'; }, 1000);
+                    setTimeout(()=>{ btn.style.animation = ''; }, 1500);
 
-        document.querySelector('body').addEventListener('keydown', (event)=>{
-            var KeyCode = event.keyCode || event.which;
-            if(KeyCode==13){
-                let btn = document.querySelector('.btnEnviar');
-                btn.click();
-            }
-        });
+                    setTimeout(()=>{
+                        hand.style.display = 'none';
+                        screnn.scr = 'assets/imagen/black.png';
+                    },3100);
+                    //power = power==0? 1:0;
+                }
+            });
 
-        document.querySelector('.btnEnviar').addEventListener('click', ()=>{
-            let anim = document.querySelector('#Doll');
-            anim.src = 'assets/DollGifs/DollTallk.gif';
-            $('#YourText').attr('disabled', 'disabled');
+            document.querySelector('body').addEventListener('keydown', (e)=>{
+                var KeyCode = e.keyCode || e.which;
+                if(KeyCode==13 && power==1){
+                    let btn = document.querySelector('.btnEnviar');
+                    btn.click();
+                }
+            });
 
-            cond[0] = cond[0] == 0? 1:cond[0];
-            let YourText = document.querySelector('#YourText');
-            let vl = YourText.value;
-            let Text = document.querySelector('#ResIa');
-
-            textSave = Text.innerHTML+'<br><br>_____________<br><br>Resposta --> '+vl;
-            
-            clearInput(YourText);
-            Text.innerHTML += '<br><br>_____________<br><br>Resposta --> ';
-            typeWriter(Text, vl, time);
-
-            let textArray = vl.split('');
-            setTimeout(()=>{
-                anim.src = 'assets/DollGifs/DollStatic.gif';
-                $('#YourText').removeAttr('disabled');
+            window.onload = ()=>{
+                let YourText = document.querySelector('#YourText');
                 YourText.focus();
-            },(time*textArray.length ));
-        });
+                
+                let Text = document.querySelector('#ResIa');
+                typeWriter(Text, "> ", time);
+            }
 
-        document.querySelector('.mouse').addEventListener('click', ()=>{
-            let YourText = document.querySelector('#YourText');
-            YourText.focus();
-        });
+            document.querySelector('#YourText').oninput = ()=>{
+                let YourText = document.querySelector('#YourText');
+                let vl = YourText.value;
+                let Text = document.querySelector('#ResIa');
+                let space = cond[0] == 0? '':'<br><br>_____________<br><br>';
 
-        document.querySelector('.blurGreenBig').addEventListener('click', ()=>{
-            let YourText = document.querySelector('#YourText');
-            YourText.focus();
-        });
+                Text.innerHTML = textSave+space+"> " + vl;
+            };
+
+            document.querySelector('.btnEnviar').addEventListener('click', ()=>{
+                let anim = document.querySelector('#Doll');
+                anim.src = 'assets/DollGifs/DollTallk.gif';
+                $('#YourText').attr('disabled', 'disabled');
+
+                cond[0] = cond[0] == 0? 1:cond[0];
+                let YourText = document.querySelector('#YourText');
+                let vl = YourText.value;
+                let Text = document.querySelector('#ResIa');
+
+                textSave = Text.innerHTML+'<br><br>_____________<br><br>BOT_Jotaro > '+vl;
+                
+                clearInput(YourText);
+                Text.innerHTML += '<br><br>_____________<br><br>BOT_Jotaro > ';
+                typeWriter(Text, vl, time);
+
+                let textArray = vl.split('');
+                setTimeout(()=>{
+                    anim.src = 'assets/DollGifs/DollStatic.gif';
+                    $('#YourText').removeAttr('disabled');
+                    YourText.focus();
+                },(time*textArray.length ));
+            });
+
+            document.querySelector('body').addEventListener('click', ()=>{
+                let YourText = document.querySelector('#YourText');
+                YourText.focus();
+            });
     </script>
 </html>

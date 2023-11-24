@@ -133,7 +133,6 @@
           border-radius: 4px;
           box-shadow: inset 1px 1px rgba(255, 255, 255, 0.1), inset 1px 1px rgba(255, 255, 255, 0.1), inset -1px -1px rgba(0,0,0,0.3), 0 1px 1px rgba(255,255,255,0.2);
           border: 2px rgb(95 90 90) solid;
-          cursor: pointer;
       }
   .old-tv footer {
       position: absolute;
@@ -281,5 +280,21 @@
       100% {
           top: 100%;
           opacity: 0;
+      }
+  }
+
+  @keyframes click{
+      0%{
+        width: 7vw;
+        height: 7vh;
+      }
+      50%{
+        width: 6.9vw;
+        height: 6.9vh;
+        box-shadow: none;
+      }
+      100%{
+        width: 7vw;
+        height: 7vh;
       }
   }
