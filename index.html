@@ -82,38 +82,49 @@
             //key tec
             jQuery(document).bind("keyup keydown", function(e){
                 if(e.ctrlKey && e.keyCode == 77){
+                    let alertText = power==0? 'ligar':'desligar';
+                    alert('Hora de '+alertText+' esse computador...');
                     let hand = document.querySelector('.handpower');
                     let btn = document.querySelector('#btnClickAnim');
                     let screnn = document.querySelector('.screenLoad');
-
+                    let animationChose = power==0? 'assets/imagen/ligando.gif':'assets/imagen/desligando.gif';
                     hand.style.display = 'flex';
 
-                    setTimeout(()=>{ btn.style.animation = 'click 1.5s ease-in-out'; }, 1000);
-                    setTimeout(()=>{ btn.style.animation = ''; }, 1500);
+                    setTimeout(()=>{ 
+                        btn.style.animation = 'click 1.5s ease-in-out';
+                    }, 1000);
+                    setTimeout(()=>{ 
+                        btn.style.animation = ''; 
+                        if(power==1){
+                            screnn.style.display = 'flex';
+                        }
+                        screnn.src = animationChose;
+                    }, 1500);
 
                     setTimeout(()=>{
+                        screnn.src = 'assets/imagen/black.png';
                         hand.style.display = 'none';
-                        screnn.scr = 'assets/imagen/black.png';
-                    },3100);
-                    //power = power==0? 1:0;
-                }
-            });
+                        power = power==0? 1:0;
 
-            document.querySelector('body').addEventListener('keydown', (e)=>{
-                var KeyCode = e.keyCode || e.which;
-                if(KeyCode==13 && power==1){
+                        let YourText = document.querySelector('#YourText');
+                        let Text = document.querySelector('#ResIa');
+                        if(power==1){
+                            screnn.style.display = 'none';
+                            YourText.focus();
+                            //text inicial
+                            typeWriter(Text, "* ", time);
+                        }else{
+                            clearText(Text);
+                            clearInput(YourText);
+                            YourText.blur();
+                        }
+                    },3000);
+                }
+                else if(e.keyCode==13 && power==1){
                     let btn = document.querySelector('.btnEnviar');
                     btn.click();
                 }
             });
-
-            window.onload = ()=>{
-                let YourText = document.querySelector('#YourText');
-                YourText.focus();
-                
-                let Text = document.querySelector('#ResIa');
-                typeWriter(Text, "> ", time);
-            }
 
             document.querySelector('#YourText').oninput = ()=>{
                 let YourText = document.querySelector('#YourText');
@@ -121,36 +132,39 @@
                 let Text = document.querySelector('#ResIa');
                 let space = cond[0] == 0? '':'<br><br>_____________<br><br>';
 
-                Text.innerHTML = textSave+space+"> " + vl;
+                Text.innerHTML = textSave+space+"* " + vl;
             };
 
-            document.querySelector('.btnEnviar').addEventListener('click', ()=>{
+            document.querySelector('.btnEnviar').addEventListener('click', () => {
                 let anim = document.querySelector('#Doll');
                 anim.src = 'assets/DollGifs/DollTallk.gif';
                 $('#YourText').attr('disabled', 'disabled');
-
-                cond[0] = cond[0] == 0? 1:cond[0];
                 let YourText = document.querySelector('#YourText');
                 let vl = YourText.value;
+                alert(vl);
                 let Text = document.querySelector('#ResIa');
+                cond[0] = 1;
+                alert(cond[0]);
 
-                textSave = Text.innerHTML+'<br><br>_____________<br><br>BOT_Jotaro > '+vl;
-                
-                clearInput(YourText);
-                Text.innerHTML += '<br><br>_____________<br><br>BOT_Jotaro > ';
+                /*textSave += Text.innerHTML+'<br><br>_____________<br><br>BOT_Jotaro > ' + vl; // Atualiza o textSave
+                clearText(Text);
+                Text.innerHTML = textSave;
                 typeWriter(Text, vl, time);
 
-                let textArray = vl.split('');
-                setTimeout(()=>{
+                clearInput(YourText);
+
+                setTimeout(() => {
                     anim.src = 'assets/DollGifs/DollStatic.gif';
                     $('#YourText').removeAttr('disabled');
                     YourText.focus();
-                },(time*textArray.length ));
+                }, (time * vl.length));*/
             });
 
             document.querySelector('body').addEventListener('click', ()=>{
                 let YourText = document.querySelector('#YourText');
-                YourText.focus();
+                if(power==1){
+                    YourText.focus();
+                }
             });
     </script>
 </html>
