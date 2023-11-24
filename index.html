@@ -135,36 +135,40 @@
                 Text.innerHTML = textSave+space+"* " + vl;
             };
 
-            document.querySelector('.btnEnviar').addEventListener('click', () => {
-                let anim = document.querySelector('#Doll');
-                anim.src = 'assets/DollGifs/DollTallk.gif';
-                $('#YourText').attr('disabled', 'disabled');
-                let YourText = document.querySelector('#YourText');
-                let vl = YourText.value;
-                alert(vl);
-                let Text = document.querySelector('#ResIa');
-                cond[0] = 1;
-                alert(cond[0]);
-
-                /*textSave += Text.innerHTML+'<br><br>_____________<br><br>BOT_Jotaro > ' + vl; // Atualiza o textSave
-                clearText(Text);
-                Text.innerHTML = textSave;
-                typeWriter(Text, vl, time);
-
-                clearInput(YourText);
-
-                setTimeout(() => {
-                    anim.src = 'assets/DollGifs/DollStatic.gif';
-                    $('#YourText').removeAttr('disabled');
-                    YourText.focus();
-                }, (time * vl.length));*/
-            });
+            document.querySelector('.btnEnviar').addEventListener('click', handleClick());
 
             document.querySelector('body').addEventListener('click', ()=>{
                 let YourText = document.querySelector('#YourText');
                 if(power==1){
                     YourText.focus();
+                    let btn = document.querySelector('.btnEnviar');
+                    btn.addEventListener('click', handleClick);
                 }
             });
+
+            function handleClick(){
+                this.removeEventListener('click', handleClick);
+                let anim = document.querySelector('#Doll');
+                anim.src = 'assets/DollGifs/DollTallk.gif';
+                $('#YourText').attr('disabled', 'disabled');
+                let YourText = document.querySelector('#YourText');
+                let vl = YourText.value;
+                let Text = document.querySelector('#ResIa');
+                cond[0] = 1;
+                
+                Text.innerHTML +='<br><br>_____________<br><br>BOT_Jotaro > ';
+                typeWriter(Text, vl, time);
+                clearInput(YourText);
+                alert(vl);
+                let textArray = vl.split('');
+                setTimeout(() => {
+                    alert('tempo passou');
+                    anim.src = 'assets/DollGifs/DollStatic.gif';
+                    $('#YourText').removeAttr('disabled');
+                    let bodie = document.querySelector('body');
+                    bodie.click();
+                    textSave = Text.innerHTML;
+                }, (time * vl.length));
+            }
     </script>
 </html>
