@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,8 @@
         <script src="https://code.jquery.com/jquery-3.2.1.slim.js" integrity="sha256-tA8y0XqiwnpwmOIl3SGAcFl2RvxHjA8qp0+1uCGmRmg=" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="assets/css/tv.css">
         <link rel="stylesheet" href="assets/css/index.css">
-        <script src="assets/java/code.js"></script>
+        <script src="assets/java/SystemPc.js"></script>
+        <script src="assets/java/IaRespost.js"></script>
         <title>Pesquisas</title>
     </head>
     <body>
@@ -48,127 +49,89 @@
         <img src="assets/imagen/hand.png" class="handpower">
     </body>
     <script>
-        //scroll
-            function report(what, ammout){
-                let Text = document.querySelector('#ResIa');
-                if(ammout>0){
-                    Text.scroll(0, (Text.scrollTop-100));
-                }else{
-                    Text.scroll(0, (Text.scrollTop+100));
-                }
-            }
+        //bot system
+        const BotJota = new IaRespost();
+            BotJota.nameBOT = 'BOT_Jotaro';
+            BotJota.topico = 'Pesquisa sobre a Plataforma nocode';
 
-            function callback(event) {
-                var normalized;
-                if (event.wheelDelta) {
-                    normalized = (event.wheelDelta % 120 - 0) == -0 ? event.wheelDelta / 120 : event.wheelDelta / 12;
-                } else {
-                    var rawAmmount = event.deltaY ? event.deltaY : event.detail;
-                    normalized = -(rawAmmount % 3 ? rawAmmount * 10 : rawAmmount / 3);
-                }
-                report('roda', normalized);
-            }
+        //variveis de construção do sistema
+        const PC_Obj = new SistemaPc();
+            var textInicial = BotJota.Inicial();
+            PC_Obj.namePc = 'HostTop';
+            PC_Obj.SaveTextTotal = BotJota.nameBOT+' > '+textInicial;
 
-            var event = 'onwheel' in document ? 'wheel' : 'onmousewheel' in document ? 'mousewheel' : 'DOMMouseScroll';
-            window.addEventListener(event, callback);
+        //objetos no sistema
+        const titulo = document.querySelector('#res');
+        const TextDiv = document.querySelector('#ResIa');
+        const InputUser = document.querySelector('#YourText');
+        const btnEnvUser = document.querySelector('.btnEnviar');
+        const DollBot = document.querySelector('#Doll');
+        
+        //add pc name
+        window.onload = ()=>{titulo.innerHTML += ' - '+PC_Obj.namePc;};
 
-        //texto
-            const titulo = document.querySelector('#res');
-            const time = 100;
-            let textSave = '';
-            let cond = [0];
-            let power = 0;
+        //scroll do #ResIa
+        var event = 'onwheel' in document ? 'wheel' : 'onmousewheel' in document ? 'mousewheel' : 'DOMMouseScroll';
+        window.addEventListener(event, function(e){
+            PC_Obj.callback(e, TextDiv);
+        }); 
             
-            //key tec
-            jQuery(document).bind("keyup keydown", function(e){
-                if(e.ctrlKey && e.keyCode == 77){
-                    let alertText = power==0? 'ligar':'desligar';
-                    alert('Hora de '+alertText+' esse computador...');
-                    let hand = document.querySelector('.handpower');
-                    let btn = document.querySelector('#btnClickAnim');
-                    let screnn = document.querySelector('.screenLoad');
-                    let animationChose = power==0? 'assets/imagen/ligando.gif':'assets/imagen/desligando.gif';
-                    hand.style.display = 'flex';
+        //Ligar e desligar PC
+        document.addEventListener('keyup', function(e){ 
+            let objsUtil = [
+                document.querySelector('.handpower'),
+                document.querySelector('#btnClickAnim'),
+                document.querySelector('.screenLoad')
+            ];
+            let UserTolls = [
+                TextDiv,
+                InputUser,
+                DollBot
+            ];
+            let dollext = ['assets/DollGifs/DollStatic.gif', 'assets/DollGifs/DollTallk.gif'];
 
-                    setTimeout(()=>{ 
-                        btn.style.animation = 'click 1.5s ease-in-out';
-                    }, 1000);
-                    setTimeout(()=>{ 
-                        btn.style.animation = ''; 
-                        if(power==1){
-                            screnn.style.display = 'flex';
-                        }
-                        screnn.src = animationChose;
-                    }, 1500);
+            PC_Obj.powerFunction(PC_Obj, e, btnEnvUser, UserTolls, objsUtil, dollext);
+        });
 
-                    setTimeout(()=>{
-                        screnn.src = 'assets/imagen/black.png';
-                        hand.style.display = 'none';
-                        power = power==0? 1:0;
+        //user está escrevendo
+        document.querySelector('#YourText').oninput = ()=>{
+            let vl = InputUser.value;
+            let space = '<br><br>_____________<br><br>';
 
-                        let YourText = document.querySelector('#YourText');
-                        let Text = document.querySelector('#ResIa');
-                        if(power==1){
-                            screnn.style.display = 'none';
-                            YourText.focus();
-                            //text inicial
-                            typeWriter(Text, "* ", time);
-                        }else{
-                            clearText(Text);
-                            clearInput(YourText);
-                            YourText.blur();
-                        }
-                    },3000);
-                }
-                else if(e.keyCode==13 && power==1){
-                    let btn = document.querySelector('.btnEnviar');
-                    btn.click();
-                }
-            });
+            TextDiv.innerHTML = PC_Obj.SaveTextTotal+space+"* " + vl;
+        };
 
-            document.querySelector('#YourText').oninput = ()=>{
-                let YourText = document.querySelector('#YourText');
-                let vl = YourText.value;
-                let Text = document.querySelector('#ResIa');
-                let space = cond[0] == 0? '':'<br><br>_____________<br><br>';
+        //btnEnviar
+        document.querySelector('.btnEnviar').addEventListener('click', btnEnviarBot);
 
-                Text.innerHTML = textSave+space+"* " + vl;
-            };
-
-            document.querySelector('.btnEnviar').addEventListener('click', handleClick());
-
-            document.querySelector('body').addEventListener('click', ()=>{
-                let YourText = document.querySelector('#YourText');
-                if(power==1){
-                    YourText.focus();
-                    let btn = document.querySelector('.btnEnviar');
-                    btn.addEventListener('click', handleClick);
-                }
-            });
-
-            function handleClick(){
-                this.removeEventListener('click', handleClick);
-                let anim = document.querySelector('#Doll');
-                anim.src = 'assets/DollGifs/DollTallk.gif';
-                $('#YourText').attr('disabled', 'disabled');
-                let YourText = document.querySelector('#YourText');
-                let vl = YourText.value;
-                let Text = document.querySelector('#ResIa');
-                cond[0] = 1;
-                
-                Text.innerHTML +='<br><br>_____________<br><br>BOT_Jotaro > ';
-                typeWriter(Text, vl, time);
-                clearInput(YourText);
-                alert(vl);
-                let textArray = vl.split('');
-                setTimeout(() => {
-                    alert('tempo passou');
-                    anim.src = 'assets/DollGifs/DollStatic.gif';
-                    $('#YourText').removeAttr('disabled');
-                    let bodie = document.querySelector('body');
-                    bodie.click();
-                    textSave = Text.innerHTML;
-                }, (time * vl.length));
+        //tirou o foco do input quando 
+        document.querySelector('body').addEventListener('click', ()=>{
+            if(PC_Obj.power===true){
+                InputUser.focus();
+                btnEnvUser.addEventListener('click', btnEnviarBot);
             }
+        });
+
+        function btnEnviarBot(){
+            this.removeEventListener('click', btnEnviarBot);
+
+            $('#YourText').attr('disabled', 'disabled');
+            let vl = InputUser.value;
+            
+            TextDiv.innerHTML +='<br><br>_____________<br><br>'+BotJota.nameBOT+' > ';
+            let respostOnbot = BotJota.botResove(vl);
+
+            PC_Obj.typeWriter(TextDiv, respostOnbot, PC_Obj.timeAnimationText);
+            PC_Obj.clearInput(InputUser);
+            PC_Obj.Dollanim(DollBot, ['assets/DollGifs/DollStatic.gif', 'assets/DollGifs/DollTallk.gif'], (PC_Obj.timeAnimationText * respostOnbot.length));
+            
+            setTimeout(() => {
+                let bodie = document.querySelector('body');
+                $('#YourText').removeAttr('disabled');
+                bodie.click();
+
+                PC_Obj.SaveTextTotal = TextDiv.innerHTML;
+            }, (PC_Obj.timeAnimationText * respostOnbot.length));
+        }
     </script>
 </html>
