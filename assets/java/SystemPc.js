@@ -3,7 +3,7 @@ class SistemaPc {
     this.namePc = '';
     this.power = false;
     this.SaveTextTotal = '';
-    this.timeAnimationText = 70;
+    this.timeAnimationText = 30;
   }
 
   Dollanim(Doll, srcs, time){
@@ -73,7 +73,7 @@ class SistemaPc {
 
       setTimeout(() => {
         objs[2].src = 'assets/imagen/black.png';
-        objs[1].style.display = 'none';
+        objs[0].style.display = 'none';
         ThisClass.power = ThisClass.power == false ? true : false;
 
         if (ThisClass.power === true) {
