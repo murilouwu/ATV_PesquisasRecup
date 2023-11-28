@@ -52,13 +52,13 @@
         //bot system
         const BotJota = new IaRespost();
             BotJota.nameBOT = 'BOT_Jotaro';
-            BotJota.topico = 'Pesquisa sobre a Plataforma nocode';
+            BotJota.topico = 'Plataforma nocode';
 
         //variveis de construção do sistema
         const PC_Obj = new SistemaPc();
             var textInicial = BotJota.Inicial();
             PC_Obj.namePc = 'HostTop';
-            PC_Obj.SaveTextTotal = BotJota.nameBOT+' > '+textInicial;
+            PC_Obj.SaveTextTotal = BotJota.nameBOT+': '+textInicial;
 
         //objetos no sistema
         const titulo = document.querySelector('#res');
@@ -118,7 +118,7 @@
             $('#YourText').attr('disabled', 'disabled');
             let vl = InputUser.value;
             
-            TextDiv.innerHTML +='<br><br>_____________<br><br>'+BotJota.nameBOT+' > ';
+            TextDiv.innerHTML +='<br><br>_____________<br><br>'+BotJota.nameBOT+': ';
             let respostOnbot = BotJota.botResove(vl);
 
             PC_Obj.typeWriter(TextDiv, respostOnbot, PC_Obj.timeAnimationText);
