@@ -56,9 +56,7 @@
 
         //variveis de construção do sistema
         const PC_Obj = new SistemaPc();
-            var textInicial = BotJota.Inicial();
             PC_Obj.namePc = 'HostTop';
-            PC_Obj.SaveTextTotal = BotJota.nameBOT+': '+textInicial;
 
         //objetos no sistema
         const titulo = document.querySelector('#res');
@@ -77,7 +75,9 @@
         }); 
             
         //Ligar e desligar PC
-        document.addEventListener('keyup', function(e){ 
+        document.addEventListener('keyup', function(e){
+            var textInicial = BotJota.Inicial();
+            PC_Obj.SaveTextTotal = BotJota.nameBOT+': '+textInicial;
             let objsUtil = [
                 document.querySelector('.handpower'),
                 document.querySelector('#btnClickAnim'),
@@ -96,8 +96,8 @@
         //user está escrevendo
         document.querySelector('#YourText').oninput = ()=>{
             let vl = InputUser.value;
-            let space = '<br><br>_____________<br><br>';
 
+            let space = '<br><br>_____________<br><br>';
             TextDiv.innerHTML = PC_Obj.SaveTextTotal+space+"* " + vl;
         };
 
@@ -117,21 +117,27 @@
 
             $('#YourText').attr('disabled', 'disabled');
             let vl = InputUser.value;
-            
-            TextDiv.innerHTML +='<br><br>_____________<br><br>'+BotJota.nameBOT+': ';
-            let respostOnbot = BotJota.botResove(vl);
+            if(vl.indexOf('/n')=== -1){
+                TextDiv.innerHTML +='<br><br>_____________<br><br>'+BotJota.nameBOT+': ';
+                let respostOnbot = BotJota.botResove(vl);
 
-            PC_Obj.typeWriter(TextDiv, respostOnbot, PC_Obj.timeAnimationText);
-            PC_Obj.clearInput(InputUser);
-            PC_Obj.Dollanim(DollBot, ['assets/DollGifs/DollStatic.gif', 'assets/DollGifs/DollTallk.gif'], (PC_Obj.timeAnimationText * respostOnbot.length));
-            
-            setTimeout(() => {
+                PC_Obj.typeWriter(TextDiv, respostOnbot, PC_Obj.timeAnimationText);
+                PC_Obj.clearInput(InputUser);
+                PC_Obj.Dollanim(DollBot, ['assets/DollGifs/DollStatic.gif', 'assets/DollGifs/DollTallk.gif'], (PC_Obj.timeAnimationText * respostOnbot.length));
+                
+                setTimeout(() => {
+                    let bodie = document.querySelector('body');
+                    $('#YourText').removeAttr('disabled');
+                    bodie.click();
+
+                    PC_Obj.SaveTextTotal = TextDiv.innerHTML;
+                }, (PC_Obj.timeAnimationText * respostOnbot.length));
+            }else{
+                alert('nesse sistema, não use /n');
                 let bodie = document.querySelector('body');
                 $('#YourText').removeAttr('disabled');
                 bodie.click();
-
-                PC_Obj.SaveTextTotal = TextDiv.innerHTML;
-            }, (PC_Obj.timeAnimationText * respostOnbot.length));
+            }
         }
     </script>
 </html>

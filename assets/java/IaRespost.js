@@ -49,7 +49,7 @@ class IaRespost {
     }
     Inicial(){
         pesquisas['Tema'] = this.topico;
-        pesquisas['textInicial'] = 'Seja Bem Vindo, oh desconhecido, ao Sistema que mostrara a Pesquisa sobre a '+pesquisas['Tema']+', feito pelo '+pesquisas['dev']['name']+' da turma do '+pesquisas['dev']['class']+' agora aqui, para começarmos Qual é o seu nome?';
+        pesquisas['textInicial'] = 'Seja Bem Vindo,/n oh desconhecido, ao Sistema que mostrara a Pesquisa sobre a '+pesquisas['Tema']+', feito pelo '+pesquisas['dev']['name']+' da turma do '+pesquisas['dev']['class']+' agora aqui, para começarmos Qual é o seu nome?';
         this.topico = 'Nome';
 
         return pesquisas['textInicial'];
@@ -79,7 +79,7 @@ class IaRespost {
             case 'PesquisaA':
                 let textFinal = 'A pesquisa sobre o '+pesquisas['search']['titles'][0]+' do nocode, foi dividida em:';
                 for(let i=0; i<pesquisas['pesquisa']['web'].length; i++){
-                    textFinalq += '/n1) '+pesquisas['pesquisa']['web'];
+                    textFinalq += '/n 1) '+pesquisas['pesquisa']['web'];
                 }
                 return textFinal;
 

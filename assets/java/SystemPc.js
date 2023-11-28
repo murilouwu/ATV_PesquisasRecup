@@ -14,13 +14,15 @@ class SistemaPc {
   }
 
   typeWriter(elemento, text, time) {
-    const textoArray = text.split('');
-    textoArray.forEach((letra, i) => {
-      setTimeout(() => (elemento.innerHTML += letra), time * i);
-      if (textoArray.length - 1 == i) {
-        setTimeout(() => this.typeWriter(elemento), time * i + 1000);
+    for(let i=0; i<text.length; i++){
+      if(text[i] == '/'){
+        if(text[i+1] == 'n'){
+          i = i+1;
+          elemento.innerHTML += '<br>';
+        }
       }
-    });
+      setTimeout(() => (elemento.innerHTML += text[i]), time * i);
+    }
   }
 
   clearText(elemento) {
@@ -92,6 +94,7 @@ class SistemaPc {
           }, (ThisClass.timeAnimationText * textoArray));
         }
         else{
+          ThisClass.SaveTextTotal = '';
           this.clearText(UserTolls[0]);
           this.clearInput(UserTolls[1]);
           UserTolls[1].blur();
